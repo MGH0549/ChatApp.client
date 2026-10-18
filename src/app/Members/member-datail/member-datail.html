@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownas}}"
+                class="card-img-top img-thumbnail">
+            <div class="card-body">
+                <div class="mb-2" *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)">
+                    <i class="class fa fa-user-circle text-success"></i> Online now
+                </div>
+                <div>
+                    <strong>Location:</strong>
+                    <p>{{member.city}}, {{member.country}}</p>
+                </div>
+                <div>
+                    <strong>Age:</strong>
+                    <p>{{member.age}}</p>
+                </div>
+                <div>
+                    <strong>Last active:</strong>
+                    <p>{{member.lastactive | date: 'dd MMM yyyy'}}</p>
+                </div>
+                <div>
+                    <strong>Member since:</strong>
+                    <p>{{member.created | date: 'dd MMM yyyy'}}</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group d-flex">
+                    <button class="btn btn-primary">Like</button>
+                    <button (click)="selectTab('Messages')" class="btn btn-success">Messages</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-8">
+        <tabset class="member-tabset" #memberTabs>
+            <tab heading="About {{member.knownas}}" (selectTab)="onTabActivated($event)">
+                <h4>Description</h4>
+                <p>{{member.introduction}}</p>
+                <h4>Looking for</h4>
+                <p>{{member.lookingfor}}</p>
+            </tab>
+            <tab heading="Interests" (selectTab)="onTabActivated($event)">
+                <h4>Interests</h4>
+                <p>{{member.interests}}</p>
+            </tab>
+            <tab heading="Photos" (selectTab)="onTabActivated($event)">
+                
+                <div class="member-gallery">
+                    @if (selectedPhotoUrl; as photoUrl) {
+                    <div class="main-photo">
+                        <img [src]="photoUrl" [alt]="member.userName + ' photo'" class="img-fluid" />
+                    </div>
+
+                    <div class="photo-thumbnails">
+                        @for (photo of galleryImages; track photo; let i = $index) {
+                        <button type="button" class="thumbnail-button" [class.selected]="selectedPhotoIndex === i"
+                            (click)="selectPhoto(i)" [attr.aria-label]="'View photo ' + (i + 1)">
+                            <img [src]="photo" [alt]="'Photo ' + (i + 1)" />
+                        </button>
+                        }
+                    </div>
+                    } @else {
+                    <p>No photos available.</p>
+                    }
+                </div>
+                
+            </tab>
+            <tab heading="Messages" (selectTab)="onTabActivated($event)">
+                <app-member-messages [userName]="member.userName"></app-member-messages>
+            </tab>
+        </tabset>
+    </div>
+</div>

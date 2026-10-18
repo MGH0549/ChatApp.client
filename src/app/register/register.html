@@ -1,0 +1,81 @@
+<section class="card border-0 shadow-sm register-card">
+  <div class="card-body p-4 p-md-5">
+    <h2 class="h3 text-center mb-1">Create your account</h2>
+    <p class="text-muted text-center mb-4">Tell us a little about yourself.</p>
+
+    <div *ngIf="requestError" class="alert alert-danger" role="alert">
+      {{ requestError }}
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="username">Username</label>
+          <input id="username" type="text" class="form-control" formControlName="username"
+            [class.is-invalid]="controls.username.touched && controls.username.invalid" autocomplete="username">
+          <div class="invalid-feedback" *ngIf="controls.username.errors?.['required']">Username is required.</div>
+          <div class="invalid-feedback" *ngIf="controls.username.errors?.['minlength']">Use at least 3 characters.</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="knownAs">Display name</label>
+          <input id="knownAs" type="text" class="form-control" formControlName="knownAs"
+            [class.is-invalid]="controls.knownAs.touched && controls.knownAs.invalid">
+          <div class="invalid-feedback">A display name is required.</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="gender">I am</label>
+          <select id="gender" class="form-select" formControlName="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="dateOfBirth">Date of birth</label>
+          <input id="dateOfBirth" type="date" class="form-control" formControlName="dateOfBirth"
+            [class.is-invalid]="controls.dateOfBirth.touched && controls.dateOfBirth.invalid">
+          <div class="invalid-feedback">Your date of birth is required.</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="city">City</label>
+          <input id="city" type="text" class="form-control" formControlName="city"
+            [class.is-invalid]="controls.city.touched && controls.city.invalid">
+          <div class="invalid-feedback">City is required.</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="country">Country</label>
+          <input id="country" type="text" class="form-control" formControlName="country"
+            [class.is-invalid]="controls.country.touched && controls.country.invalid">
+          <div class="invalid-feedback">Country is required.</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="password">Password</label>
+          <input id="password" type="password" class="form-control" formControlName="password"
+            [class.is-invalid]="controls.password.touched && controls.password.invalid" autocomplete="new-password">
+          <div class="invalid-feedback" *ngIf="controls.password.errors?.['required']">Password is required.</div>
+          <div class="invalid-feedback" *ngIf="controls.password.errors?.['minlength']">Use at least 6 characters.</div>
+          <div class="invalid-feedback" *ngIf="controls.password.errors?.['maxlength']">Use no more than 32 characters.</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="confirmPassword">Confirm password</label>
+          <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword"
+            [class.is-invalid]="controls.confirmPassword.touched && (controls.confirmPassword.invalid || registerForm.errors?.['passwordMismatch'])"
+            autocomplete="new-password">
+          <div class="invalid-feedback" *ngIf="controls.confirmPassword.errors?.['required']">Please confirm your password.</div>
+          <div class="invalid-feedback" *ngIf="!controls.confirmPassword.errors?.['required'] && registerForm.errors?.['passwordMismatch']">Passwords do not match.</div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 justify-content-end mt-4">
+        <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="submitted && registerForm.invalid">Register</button>
+      </div>
+    </form>
+  </div>
+</section>
