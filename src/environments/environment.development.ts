@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5232/api/',
-  hubUrl: 'http://localhost:5232/hubs/'
+  apiUrl: 'https://mghchatapp.runasp.net/api/',
+  hubUrl: 'https://mghchatapp.runasp.net/hubs/'
 };
